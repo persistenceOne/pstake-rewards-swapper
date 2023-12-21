@@ -24,9 +24,9 @@ export const ChainInfos = {
         rpc: "https://dydx-testnet-rpc.publicnode.com:443",
         chainID: "dydx-mainnet-1",
         prefix: "dydx",
-        feeDenom: "adv4tnt",
+        feeDenom: "",
         tmVersion: COMET_BFT_VERSIONS.comet37,
-        gasPrice: GasPrice.fromString("12500000000adv4tnt"),
+        gasPrice: "",
     },
 
     // TESTNETS
@@ -90,6 +90,7 @@ export const IBCInfos = {
 export const Denoms = {
     //MAINNETS
     Persistence: {
+        USDC: "",
         DYDX: ""
     },
     Dydx: {
@@ -109,18 +110,18 @@ export const Denoms = {
 export const Addresses = {
     //MAINNETS
     Persistence: {
-        address: "persistence1wmd9kfszmzymug76hjfjrfyghzmts6gcls763g",
-        hdPath: stringToPath("m/44'/118'/2'/0/0"),
-        prefix: "persistence",
+        address: "",
+        hdPath: "",
+        prefix: "",
         chainInfo: ChainInfos.Persistence,
-        description: "Has authz for updating HostChains of liquidstakeibc module, granter: persistence1ealyadcds02yvsn78he4wntt7tpdqhlhg7y2s6, older granter: persistence12d7ett36q9vmtzztudt48f9rtyxlayflz5gun3"
+        description: ""
     },
     Dydx: {
-        address: "persistence1wmd9kfszmzymug76hjfjrfyghzmts6gcls763g",
-        hdPath: stringToPath("m/44'/118'/2'/0/0"),
-        prefix: "persistence",
-        chainInfo: ChainInfos.Persistence,
-        description: "Has authz for updating HostChains of liquidstakeibc module, granter: persistence1ealyadcds02yvsn78he4wntt7tpdqhlhg7y2s6, older granter: persistence12d7ett36q9vmtzztudt48f9rtyxlayflz5gun3"
+        address: "",
+        hdPath: "",
+        prefix: "",
+        chainInfo: ChainInfos.Dydx,
+        description: ""
     },
 
     //TESTNETS
