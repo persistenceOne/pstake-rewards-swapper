@@ -181,6 +181,13 @@ export const Addresses = {
 }
 
 export const Contracts = {
+    // MAINNETS
+    Persistence: {
+        Pool: "",
+        Vault: ""
+    },
+
+    // TESTNETS
     PersistenceTestnet: {
         Pool: "persistence1xl7dhgwggn43hy9q2dmul8hln5e9hzja48h7r4k0de4lachysq4sz4qt28",
         Vault: "persistence1hrpna9v7vs3stzyd4z3xf00676kf78zpe2u5ksvljswn2vnjp3ys64pna7"

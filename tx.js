@@ -35,13 +35,11 @@ export async function IBCSend(senderAddress, receiverAddress, senderIBCInfo, coi
             memo: ""
         })
     }
-    console.log("MsgTransfer: ", JSON.stringify(msgIBCTransfer))
 
     return await SendTx(senderAddress, [msgIBCTransfer], 1.5, "")
 }
 
 export async function ExecuteContract(senderAddress, contractAddress, msg, funds) {
-    console.log(JSON.stringify(msg))
     const msgExecuteContract = {
         typeUrl: "/cosmwasm.wasm.v1.MsgExecuteContract", value: MsgExecuteContract.fromPartial({
             sender: senderAddress.address,
@@ -51,16 +49,15 @@ export async function ExecuteContract(senderAddress, contractAddress, msg, funds
             memo: ""
         })
     }
-    console.log("MsgExecuteContract: ", JSON.stringify(msgExecuteContract))
 
     return await SendTx(senderAddress, [msgExecuteContract], 1.5, "")
 }
 
 async function SendTx(senderAddress, msgs, fee, memo) {
     const signingPersistenceClient = await CreateSigningClientFromAddress(senderAddress)
-
     const response = await signingPersistenceClient.signAndBroadcast(senderAddress.address, msgs, fee, memo)
-    console.log(JSON.stringify(response))
 
     assertIsDeliverTxSuccess(response)
+
+    return JSON.parse(JSON.stringify(response)).transactionHash
 }
