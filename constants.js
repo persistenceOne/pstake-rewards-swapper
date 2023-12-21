@@ -49,6 +49,45 @@ export const ChainInfos = {
 }
 
 export const IBCInfos = {
+    // MAINNETS
+    Persistence: {
+        Noble: {
+            channelId: "",
+            connectionId: "",
+            clientId: "",
+            port: ""
+        },
+        Dydx: {
+            channelId: "",
+            connectionId: "",
+            clientId: "",
+            port: ""
+        }
+    },
+    Noble: {
+        Persistence: {
+            channelId: "",
+            connectionId: "",
+            clientId: "",
+            port: ""
+        }
+    },
+    Dydx: {
+        Persistence: {
+            channelId: "",
+            connectionId: "",
+            clientId: "",
+            port: ""
+        },
+        Noble: {
+            channelId: "",
+            connectionId: "",
+            clientId: "",
+            port: ""
+        }
+    },
+
+    // TESTNETS
     PersistenceTestnet: {
         NobleTestnet: {
             channelId: "channel-11",
