@@ -101,3 +101,5 @@ export function GenerateSwapMsg(minReceive, amount, assetIn, assetOut) {
         }
     }
 }
+
+export const sleep = ms => new Promise(r => setTimeout(r, ms));
