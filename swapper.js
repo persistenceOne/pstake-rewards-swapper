@@ -9,10 +9,10 @@ export const USDC_DYDX_POOL_ID = "5"
 
 async function QueryUSDCRewardBalances() {
     switch (HOST_CHAIN) {
-        case ChainInfos.Dydx.chainID:
+        case ChainInfos.Persistence.chainID:
             return await QueryAccountBalance(ChainInfos.Dydx, Addresses.Dydx, Denoms.Dydx.USDC)
                 .then(balance => balance.balance.amount)
-        case ChainInfos.DydxTestnet.chainID:
+        case ChainInfos.PersistenceTestnet.chainID:
             return await QueryAccountBalance(ChainInfos.DydxTestnet, Addresses.DydxTestnet, Denoms.DydxTestnet.USDC)
                 .then(balance => balance.balance.amount)
     }
@@ -92,7 +92,7 @@ async function QueryDYDXSwappedBalances() {
     const denom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Denoms.Persistence.DYDX : Denoms.PersistenceTestnet.DYDX
 
-    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance)
+    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance.amount)
 }
 
 async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
@@ -118,7 +118,7 @@ async function Swap() {
         console.log("Moved USDC rewards to Persistence. Tx Hash: " + txHash)
         await sleep(120000)
     } else {
-        console.log("No USDC balance to swap.")
+        console.log("No USDC rewards to move.")
     }
 
     // STEP 2
