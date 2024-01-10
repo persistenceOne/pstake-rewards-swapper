@@ -165,14 +165,14 @@ export const Addresses = {
 
     //TESTNETS
     PersistenceTestnet: {
-        address: "persistence15e9sgp4h6e703fd832suxuyr3sx63ccfmecv0p",
+        address: "persistence1cyu7835cv8vmfyfml7mtv795gegc2hz43xlnaz",
         hdPath: stringToPath("m/44'/118'/0'/0/0"),
         prefix: "persistence",
         chainInfo: ChainInfos.PersistenceTestnet,
         description: ""
     },
     DydxTestnet: {
-        address: "dydx15e9sgp4h6e703fd832suxuyr3sx63ccfuvsmpj",
+        address: "dydx1cyu7835cv8vmfyfml7mtv795gegc2hz4knhyn3",
         hdPath: stringToPath("m/44'/118'/0'/0/0"),
         prefix: "dydx",
         chainInfo: ChainInfos.DydxTestnet,
