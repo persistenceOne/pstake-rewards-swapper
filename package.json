@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "Repository that hosts non-auto-compoundable reward swapping for pSTAKE",
   "type": "module",
-  "scripts": {},
+  "scripts": {
+    "swap": "NODE_OPTIONS='--experimental-specifier-resolution=node' node swapper.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/persistenceOne/pstake-rewards-swapper.git"
