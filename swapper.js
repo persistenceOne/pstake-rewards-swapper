@@ -1,4 +1,4 @@
-import {Addresses, ChainInfos, Contracts, Denoms, HOST_CHAIN, IBCInfos} from "./constants.js";
+import {Addresses, ChainInfos, Contracts, Denoms, HOST_CHAIN, IBCInfos, MNEMONIC} from "./constants.js";
 import {QueryAccountBalance, QuerySmartContractState} from "./query.js";
 import {ExecuteContract, IBCRoute, IBCSend} from "./tx.js";
 import {GenerateOnSwapRequest, GenerateSwapMsg, sleep} from "./helper.js";
@@ -7,9 +7,6 @@ export const SLIPPAGE = 0.5
 export const MAX_SPREAD = "0.02"
 export const USDC_DYDX_POOL_ID = "5"
 
-// STEP 1
-// Query the USDC balance of the account controlled by the script in the dYdX chain. Then, move the whole amount to the
-// Persistence chain routing it via Noble using PFM.
 async function QueryUSDCRewardBalances() {
     switch (HOST_CHAIN) {
         case ChainInfos.Dydx.chainID:
@@ -41,11 +38,6 @@ async function MoveUSDCRewardsToPersistence(USDCBalance) {
             )
     }
 }
-
-// STEP 2
-// Query the USDC balance of the account controlled by the script. This will count both the newly transferred balance +
-// any remains that might be in the account as a result of swap errors or just pure accumulation because of, i.e.
-// slippage. Then, swap the rewards via Dexter.
 
 async function QueryUSDCBalanceOnPersistence() {
     const chainInfo = HOST_CHAIN === ChainInfos.Persistence.chainID ?
@@ -92,10 +84,6 @@ async function SwapUSDCRewards(USDCBalance) {
 
 }
 
-// STEP 3
-// Query the DYDX balance of the account after performing the swap and send the tokens back to the module rewards
-// address in the dYdX chain via IBC.
-
 async function QueryDYDXSwappedBalances() {
     const chainInfo = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         ChainInfos.Persistence : ChainInfos.PersistenceTestnet
@@ -119,6 +107,24 @@ async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
 }
 
 async function Swap() {
+    // STEP 1
+    // Query the USDC balance of the account controlled by the script in the dYdX chain. Then, move the whole amount to the
+    // Persistence chain routing it via Noble using PFM.
+    console.log("Querying USDC rewards balance on dYdX.")
+    const USDCRewards = await QueryUSDCRewardBalances()
+    if (USDCRewards != 0) {
+        console.log("Moving " + USDCRewards + "uusdc.")
+        const txHash = await MoveUSDCRewardsToPersistence(USDCRewards)
+        console.log("Moved USDC rewards to Persistence. Tx Hash: " + txHash)
+        await sleep(120000)
+    } else {
+        console.log("No USDC balance to swap.")
+    }
+
+    // STEP 2
+    // Query the USDC balance of the account controlled by the script. This will count both the newly transferred balance +
+    // any remains that might be in the account as a result of swap errors or just pure accumulation because of, i.e.
+    // slippage. Then, swap the rewards via Dexter.
     console.log("Querying USDC rewards balance on Persistence.")
     const USDCBalance = await QueryUSDCBalanceOnPersistence()
     if (USDCBalance != 0) {
@@ -130,6 +136,9 @@ async function Swap() {
         console.log("No USDC balance to swap.")
     }
 
+    // STEP 3
+    // Query the DYDX balance of the account after performing the swap and send the tokens back to the module rewards
+    // address in the dYdX chain via IBC.
     console.log("Querying DYDX swapped balance on Persistence.")
     const DYDXBalance = await QueryDYDXSwappedBalances()
     if (DYDXBalance != 0) {
