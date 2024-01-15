@@ -4,7 +4,7 @@ import { MsgTransfer } from "cosmjs-types/ibc/applications/transfer/v1/tx.js";
 import { MsgExecuteContract } from "cosmjs-types/cosmwasm/wasm/v1/tx.js";
 
 export async function IBCRoute(senderAddress, receiverAddress, senderIBCInfo, forwardIBCInfo, coin) {
-    let memo = "{\"forward\":{\"receiver\":\"" + receiverAddress + "\",\"port\":\"" + forwardIBCInfo.port + "\"," +
+    let memo = "{\"forward\":{\"receiver\":\"" + receiverAddress.address + "\",\"port\":\"" + forwardIBCInfo.port + "\"," +
         "\"channel\":\"" + forwardIBCInfo.channelId + "\",\"timeout\":\"1m\",\"retries\":2}}"
 
     const msgIBCTransfer = {
