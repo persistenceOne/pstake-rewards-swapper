@@ -84,7 +84,7 @@ async function QueryDYDXSwappedBalances() {
     const denom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Denoms.Persistence.DYDX : Denoms.PersistenceTestnet.DYDX
 
-    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance.amount)
+    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance)
 }
 
 async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
@@ -93,7 +93,7 @@ async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
     const senderAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Addresses.Persistence : Addresses.PersistenceTestnet
     const receiverAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
-        Addresses.Dydx : Addresses.DydxTestnet
+        Addresses.DydxRewardsAddress : Addresses.DydxTestnetRewardsAddress
 
     return await IBCSend(senderAddress, receiverAddress, ibcInfo, DYDXSwappedAmount)
 }
