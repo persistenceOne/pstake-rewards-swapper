@@ -8,35 +8,27 @@ export const MAX_SPREAD = "0.02"
 export const USDC_DYDX_POOL_ID = "5"
 
 async function QueryUSDCRewardBalances() {
-    switch (HOST_CHAIN) {
-        case ChainInfos.Persistence.chainID:
-            return await QueryAccountBalance(ChainInfos.Dydx, Addresses.Dydx, Denoms.Dydx.USDC)
-                .then(balance => balance.balance.amount)
-        case ChainInfos.PersistenceTestnet.chainID:
-            return await QueryAccountBalance(ChainInfos.DydxTestnet, Addresses.DydxTestnet, Denoms.DydxTestnet.USDC)
-                .then(balance => balance.balance.amount)
-    }
+    const chainInfo = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        ChainInfos.Dydx : ChainInfos.DydxTestnet
+    const address = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        Addresses.Dydx : Addresses.DydxTestnet
+    const denom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        Denoms.Dydx.USDC : Denoms.DydxTestnet.USDC
+
+    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance)
 }
 
 async function MoveUSDCRewardsToPersistence(USDCBalance) {
-    switch (HOST_CHAIN) {
-        case ChainInfos.Dydx.chainID:
-            return await IBCRoute(
-                Addresses.Dydx,
-                Addresses.Persistence,
-                IBCInfos.Dydx.Noble,
-                IBCInfos.Noble.Persistence,
-                USDCBalance
-            )
-        case ChainInfos.DydxTestnet.chainID:
-            return await IBCRoute(
-                Addresses.DydxTestnet,
-                Addresses.PersistenceTestnet,
-                IBCInfos.DydxTestnet.NobleTestnet,
-                IBCInfos.NobleTestnet.PersistenceTestnet,
-                USDCBalance
-            )
-    }
+    const senderAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        Addresses.Dydx : Addresses.DydxTestnet
+    const receiverAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        Addresses.Persistence : Addresses.PersistenceTestnet
+    const senderIbcInfo = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        IBCInfos.Dydx.Noble : IBCInfos.DydxTestnet.NobleTestnet
+    const receiverIbcInfo = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        IBCInfos.Noble.Persistence : IBCInfos.NobleTestnet.PersistenceTestnet
+
+    return await IBCRoute(senderAddress, receiverAddress, senderIbcInfo, receiverIbcInfo, USDCBalance)
 }
 
 async function QueryUSDCBalanceOnPersistence() {
@@ -92,7 +84,7 @@ async function QueryDYDXSwappedBalances() {
     const denom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Denoms.Persistence.DYDX : Denoms.PersistenceTestnet.DYDX
 
-    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance.amount)
+    return await QueryAccountBalance(chainInfo, address, denom).then(balance => balance.balance)
 }
 
 async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
@@ -101,7 +93,7 @@ async function MoveDYDXSwappedTokensToDydx(DYDXSwappedAmount) {
     const senderAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Addresses.Persistence : Addresses.PersistenceTestnet
     const receiverAddress = HOST_CHAIN === ChainInfos.Persistence.chainID ?
-        Addresses.Dydx : Addresses.DydxTestnet
+        Addresses.DydxRewardsAddress : Addresses.DydxTestnetRewardsAddress
 
     return await IBCSend(senderAddress, receiverAddress, ibcInfo, DYDXSwappedAmount)
 }
@@ -112,8 +104,8 @@ async function Swap() {
     // Persistence chain routing it via Noble using PFM.
     console.log("Querying USDC rewards balance on dYdX.")
     const USDCRewards = await QueryUSDCRewardBalances()
-    if (USDCRewards != 0) {
-        console.log("Moving " + USDCRewards + "uusdc.")
+    if (USDCRewards.amount != 0) {
+        console.log("Moving " + USDCRewards.amount + "uusdc.")
         const txHash = await MoveUSDCRewardsToPersistence(USDCRewards)
         console.log("Moved USDC rewards to Persistence. Tx Hash: " + txHash)
         await sleep(120000)

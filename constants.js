@@ -162,6 +162,9 @@ export const Addresses = {
         chainInfo: ChainInfos.Dydx,
         description: ""
     },
+    DydxRewardsAddress: {
+        address: "",
+    },
 
     //TESTNETS
     PersistenceTestnet: {
@@ -178,6 +181,9 @@ export const Addresses = {
         chainInfo: ChainInfos.DydxTestnet,
         description: ""
     },
+    DydxTestnetRewardsAddress: {
+        address: "dydx1jaldkhdwj0fn9ahtwzp763jxw3gdamyeg7nr6ceymazt2eazkj5sk8c8sq",
+    }
 }
 
 export const Contracts = {
