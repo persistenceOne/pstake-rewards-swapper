@@ -18,7 +18,7 @@ export async function IBCRoute(senderAddress, receiverAddress, senderIBCInfo, fo
             memo: memo
         })
     }
-    console.log("MsgTransfer: ", JSON.stringify(msgIBCTransfer))
+    //console.log("MsgTransfer: ", JSON.stringify(msgIBCTransfer))
 
     return await SendTx(senderAddress, [msgIBCTransfer], 1.5, "")
 }
