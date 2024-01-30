@@ -1,4 +1,4 @@
-import {Addresses, ChainInfos, Contracts, Denoms, HOST_CHAIN, IBCInfos, MNEMONIC} from "./constants.js";
+import {Addresses, ChainInfos, Contracts, Denoms, HOST_CHAIN, IBCInfos, DEX} from "./constants.js";
 import {QueryAccountBalance, QuerySmartContractState} from "./query.js";
 import {ExecuteContract, IBCRoute, IBCSend} from "./tx.js";
 import {GenerateOnSwapRequest, GenerateSwapMsg, sleep} from "./helper.js";
@@ -59,6 +59,8 @@ async function SwapUSDCRewards(USDCBalance) {
         Denoms.Persistence.USDC : Denoms.PersistenceTestnet.USDC
     const DYDXDenom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
         Denoms.Persistence.DYDX : Denoms.PersistenceTestnet.DYDX
+    const poolID = HOST_CHAIN === ChainInfos.Persistence.chainID ?
+        DEX.Persistence.PoolID : DEX.PersistenceTestnet.PoolID
 
     let state = await QuerySmartContractState(
         chainInfo,
@@ -70,7 +72,7 @@ async function SwapUSDCRewards(USDCBalance) {
     return await ExecuteContract(
         senderAddress,
         vaultContract,
-        GenerateSwapMsg(minReceive.toString(), USDCBalance, USDCDenom, DYDXDenom),
+        GenerateSwapMsg(minReceive.toString(), USDCBalance, USDCDenom, DYDXDenom, poolID),
         [{denom: USDCDenom, amount: USDCBalance}],
     )
 

@@ -76,7 +76,7 @@ export function GenerateOnSwapRequest(offerAsset, askAsset, amount) {
     }
 }
 
-export function GenerateSwapMsg(minReceive, amount, assetIn, assetOut) {
+export function GenerateSwapMsg(minReceive, amount, assetIn, assetOut, poolID) {
     return {
         swap: {
             min_receive: minReceive,
@@ -93,7 +93,7 @@ export function GenerateSwapMsg(minReceive, amount, assetIn, assetOut) {
                     }
                 },
                 max_spread: MAX_SPREAD,
-                pool_id: USDC_DYDX_POOL_ID,
+                pool_id: poolID,
                 swap_type: {
                     give_in: {}
                 }

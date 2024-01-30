@@ -21,12 +21,12 @@ export const ChainInfos = {
         tmVersion: COMET_BFT_VERSIONS.comet37,
     },
     Dydx: {
-        rpc: "https://dydx-testnet-rpc.publicnode.com:443",
+        rpc: "https://dydx-dao-rpc.polkachu.com:443",
         chainID: "dydx-mainnet-1",
         prefix: "dydx",
-        feeDenom: "",
-        tmVersion: COMET_BFT_VERSIONS.comet37,
-        gasPrice: "",
+        feeDenom: "adydx",
+        gasPrice: GasPrice.fromString("12500000000adydx"),
+        tmVersion: COMET_BFT_VERSIONS.comet38,
     },
 
     // TESTNETS
@@ -52,38 +52,38 @@ export const IBCInfos = {
     // MAINNETS
     Persistence: {
         Noble: {
-            channelId: "",
-            connectionId: "",
-            clientId: "",
-            port: ""
+            channelId: "channel-132",
+            connectionId: "connection-198",
+            clientId: "07-tendermint-160",
+            port: "transfer"
         },
         Dydx: {
-            channelId: "",
-            connectionId: "",
-            clientId: "",
-            port: ""
+            channelId: "channel-131",
+            connectionId: "connection-197",
+            clientId: "07-tendermint-159",
+            port: "transfer"
         }
     },
     Noble: {
         Persistence: {
-            channelId: "",
-            connectionId: "",
-            clientId: "",
-            port: ""
+            channelId: "channel-36",
+            connectionId: "connection-59",
+            clientId: "07-tendermint-61",
+            port: "transfer"
         }
     },
     Dydx: {
         Persistence: {
-            channelId: "",
-            connectionId: "",
-            clientId: "",
-            port: ""
+            channelId: "channel-4",
+            connectionId: "connection-8",
+            clientId: "07-tendermint-4",
+            port: "transfer"
         },
         Noble: {
-            channelId: "",
-            connectionId: "",
-            clientId: "",
-            port: ""
+            channelId: "channel-0",
+            connectionId: "connection-0",
+            clientId: "07-tendermint-0",
+            port: "transfer"
         }
     },
 
@@ -129,11 +129,11 @@ export const IBCInfos = {
 export const Denoms = {
     //MAINNETS
     Persistence: {
-        USDC: "",
-        DYDX: ""
+        USDC: "ibc/B3792E4A62DF4A934EF2DF5968556DB56F5776ED25BDE11188A4F58A7DD406F0",
+        DYDX: "ibc/23DC3FF0E4CBB53A1915E4C62507CB7796956E84C68CA49707787CB8BDE90A1E"
     },
     Dydx: {
-        USDC: ""
+        USDC: "ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5"
     },
 
     //TESTNETS
@@ -149,16 +149,16 @@ export const Denoms = {
 export const Addresses = {
     //MAINNETS
     Persistence: {
-        address: "",
-        hdPath: "",
-        prefix: "",
+        address: "persistence17vhsaxt7cffl3crzyzmqz33ty67vzjwgf460rx",
+        hdPath: stringToPath("m/44'/118'/0'/0/0"),
+        prefix: "persistence",
         chainInfo: ChainInfos.Persistence,
         description: ""
     },
     Dydx: {
-        address: "",
-        hdPath: "",
-        prefix: "",
+        address: "dydx17vhsaxt7cffl3crzyzmqz33ty67vzjwgwqjcd4",
+        hdPath: stringToPath("m/44'/118'/0'/0/0"),
+        prefix: "dydx",
         chainInfo: ChainInfos.Dydx,
         description: ""
     },
@@ -189,13 +189,25 @@ export const Addresses = {
 export const Contracts = {
     // MAINNETS
     Persistence: {
-        Pool: "",
-        Vault: ""
+        Pool: "persistence1gzuv84xrwwhxhf0f62av279vfyrfrm7x58fcnadlr5m90gnx223sglqscd",
+        Vault: "persistence1k8re7jwz6rnnwrktnejdwkwnncte7ek7gt29gvnl3sdrg9mtnqkstujtpg"
     },
 
     // TESTNETS
     PersistenceTestnet: {
         Pool: "persistence1xl7dhgwggn43hy9q2dmul8hln5e9hzja48h7r4k0de4lachysq4sz4qt28",
         Vault: "persistence1hrpna9v7vs3stzyd4z3xf00676kf78zpe2u5ksvljswn2vnjp3ys64pna7"
+    }
+}
+
+export const DEX = {
+    // MAINNETS
+    Persistence: {
+        PoolID: "6"
+    },
+
+    // TESTNETS
+    PersistenceTestnet: {
+        PoolID: "5"
     }
 }
