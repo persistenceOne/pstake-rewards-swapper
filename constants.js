@@ -163,7 +163,7 @@ export const Addresses = {
         description: ""
     },
     DydxRewardsAddress: {
-        address: "",
+        address: "dydx1qqatzdqtm2fu722p3638tgacgev3r0qdywuw2ddp0mtdfr6kay7s7plrgu",
     },
 
     //TESTNETS
