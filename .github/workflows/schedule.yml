@@ -4,8 +4,12 @@ on:
   schedule:
     - cron: '0 11 * * *'
 
+env:
+  MNEMONIC: ${{ secrets.MNEMONIC }}
+
 jobs:
   swap-dydx-rewards-testnet:
+    environment: prod
     runs-on: ubuntu-latest
 
     strategy:
@@ -25,5 +29,4 @@ jobs:
       - name: Swap USDC Rewards
         run: npm run swap
         env:
-          MNEMONIC: ${{ secrets.MNEMONIC }}
           HOST_CHAIN: "test-core-2"
