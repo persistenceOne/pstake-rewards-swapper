@@ -21,7 +21,7 @@ export const ChainInfos = {
         tmVersion: COMET_BFT_VERSIONS.comet37,
     },
     Dydx: {
-        rpc: "https://dydx-dao-rpc.polkachu.com:443",
+        rpc: "https://dydx-rpc.publicnode.com:443",
         chainID: "dydx-mainnet-1",
         prefix: "dydx",
         feeDenom: "adydx",
