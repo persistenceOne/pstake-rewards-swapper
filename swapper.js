@@ -135,9 +135,7 @@ async function Swap() {
     // address in the dYdX chain via IBC.
     console.log("Querying DYDX swapped balance on Persistence.")
     const DYDXBalance = await QueryDYDXSwappedBalances()
-    const denom = HOST_CHAIN === ChainInfos.Persistence.chainID ?
-        Denoms.Persistence.DYDX : Denoms.PersistenceTestnet.DYDX
-    if (DYDXBalance != "0" + denom) {
+    if (DYDXBalance.amount != "0") {
         console.log("Sending " + DYDXBalance.amount + "adydx to the pStake ICA rewards address.")
         const txHash = await MoveDYDXSwappedTokensToDydx(DYDXBalance)
         console.log("Sent swapped DYDX to the dYdX chain. Tx Hash: " + txHash)
