@@ -39,7 +39,7 @@ export const ChainInfos = {
         gasPrice: GasPrice.fromString("0.005uxprt"),
     },
     DydxTestnet: {
-        rpc: "https://dydx-testnet-rpc.publicnode.com:443",
+        rpc: "https://test-dydx.kingnodes.com:443",
         chainID: "dydx-testnet-4",
         prefix: "dydx",
         feeDenom: "adv4tnt",
