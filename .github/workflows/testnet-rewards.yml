@@ -30,3 +30,4 @@ jobs:
         run: npm run swap
         env:
           HOST_CHAIN: "test-core-2"
+          TARGET_ENV: "testnet"
