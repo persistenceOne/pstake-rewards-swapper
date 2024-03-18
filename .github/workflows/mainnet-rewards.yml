@@ -28,3 +28,5 @@ jobs:
         run: npm ci
       - name: Swap USDC Rewards
         run: npm run skip-swap
+        env:
+          TARGET_ENV: "mainnet"

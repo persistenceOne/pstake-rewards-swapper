@@ -3,6 +3,10 @@ import {stringToPath} from "@cosmjs/crypto";
 
 export const MNEMONIC = process.env.MNEMONIC
 export const HOST_CHAIN = process.env.HOST_CHAIN
+export const TARGET_ENV = process.env.TARGET_ENV
+
+export const TARGET_ENV_MAINNET = "mainnet"
+export const TARGET_ENV_TESTNET = "testnet"
 
 export const COMET_BFT_VERSIONS = {
     comet34: "34",

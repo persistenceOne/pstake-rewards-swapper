@@ -4,8 +4,7 @@
   "description": "Repository that hosts non-auto-compoundable reward swapping for pSTAKE",
   "type": "module",
   "scripts": {
-    "swap": "node swapper.js",
-    "skip-swap": "node skip-swapper.js"
+    "swap": "node swapper.js"
   },
   "repository": {
     "type": "git",

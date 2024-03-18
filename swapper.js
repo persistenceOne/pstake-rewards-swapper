@@ -1,7 +1,18 @@
-import {Addresses, ChainInfos, Contracts, Denoms, HOST_CHAIN, IBCInfos, DEX} from "./constants.js";
+import {
+    Addresses,
+    ChainInfos,
+    Contracts,
+    Denoms,
+    HOST_CHAIN,
+    IBCInfos,
+    DEX,
+    TARGET_ENV,
+    TARGET_ENV_MAINNET, TARGET_ENV_TESTNET
+} from "./constants.js";
 import {QueryAccountBalance, QuerySmartContractState} from "./query.js";
 import {ExecuteContract, IBCRoute, IBCSend} from "./tx.js";
-import {GenerateOnSwapRequest, GenerateSwapMsg, sleep} from "./helper.js";
+import {GenerateOnSwapRequest, GenerateSwapMsg, SkipClient, sleep} from "./helper.js";
+import util from "util";
 
 export const SLIPPAGE = 0.5
 export const MAX_SPREAD = "0.02"
@@ -144,5 +155,55 @@ async function Swap() {
     }
 }
 
+async function SkipSwap() {
+    console.log("Querying USDC rewards balance on dYdX.\n")
+
+    const usdcRewardsAmount =  await QueryAccountBalance(ChainInfos.Dydx, Addresses.Dydx, Denoms.Dydx.USDC)
+        .then(balance => balance.balance.amount)
+
+    if (usdcRewardsAmount != "0") {
+        const client = SkipClient()
+
+        const route = await client.route({
+            amountIn: usdcRewardsAmount,
+            sourceAssetDenom: Denoms.Dydx.USDC,
+            sourceAssetChainID: ChainInfos.Dydx.chainID,
+            destAssetDenom: ChainInfos.Dydx.feeDenom,
+            destAssetChainID: ChainInfos.Dydx.chainID,
+            cumulativeAffiliateFeeBPS: "0",
+        });
+
+        console.log("ROUTE\n")
+        console.log("-------------------------------------------------------------------------------------------------\n")
+        console.log(util.inspect(response, {showHidden: false, depth: null, colors: true}))
+        console.log("\n")
+        console.log("-------------------------------------------------------------------------------------------------\n")
+
+        await client.executeRoute({
+            route,
+            userAddresses: {
+                "dydx-mainnet-1": Addresses.Dydx.address,
+                "noble-1": Addresses.Noble.address,
+                "osmosis-1": Addresses.Osmosis.address,
+            },
+            onTransactionCompleted: async (chainID, hash, response) => {
+                console.log("Transaction Hash: " + hash + "\n");
+                console.log("-------------------------------------------------------------------------------------------------\n")
+                console.log(util.inspect(response, {showHidden: false, depth: null, colors: true}))
+                console.log("\n")
+                console.log("-------------------------------------------------------------------------------------------------\n")
+            },
+        })
+    } else {
+        console.log("No USDC rewards to swap.\n")
+    }
+}
+
 // entrypoint
-await Swap()
+if (TARGET_ENV === TARGET_ENV_MAINNET) {
+    await SkipSwap()
+} else if(TARGET_ENV === TARGET_ENV_TESTNET) {
+    await Swap()
+} else {
+    console.log("Target environment not present or not correctly set.")
+}
