@@ -28,6 +28,12 @@ export const ChainInfos = {
         gasPrice: GasPrice.fromString("12500000000adydx"),
         tmVersion: COMET_BFT_VERSIONS.comet38,
     },
+    Noble: {
+        chainID: "noble-1",
+    },
+    Osmosis: {
+        chainID: "osmosis-1",
+    },
 
     // TESTNETS
     PersistenceTestnet: {
@@ -164,6 +170,12 @@ export const Addresses = {
     },
     DydxRewardsAddress: {
         address: "dydx1qqatzdqtm2fu722p3638tgacgev3r0qdywuw2ddp0mtdfr6kay7s7plrgu",
+    },
+    Noble: {
+        address: "noble17vhsaxt7cffl3crzyzmqz33ty67vzjwg06f54v",
+    },
+    Osmosis: {
+        address: "osmo17vhsaxt7cffl3crzyzmqz33ty67vzjwg0z0vms",
     },
 
     //TESTNETS

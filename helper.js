@@ -10,7 +10,26 @@ import {registry as wasmRegistry} from "persistenceonejs/cosmwasm/wasm/v1/tx.reg
 import {COMET_BFT_VERSIONS, MNEMONIC} from "./constants.js";
 import {Tendermint34Client, Tendermint37Client} from "@cosmjs/tendermint-rpc";
 import {MAX_SPREAD, USDC_DYDX_POOL_ID} from "./swapper.js";
+import {SKIP_API_URL, SkipRouter} from "@skip-router/core";
 export const CustomRegistry = new Registry([...defaultStargateTypes, ...ibcTransferRegistry, ...wasmRegistry]);
+
+
+export function SkipClient() {
+    return new SkipRouter({
+        apiURL: SKIP_API_URL,
+        getCosmosSigner: async (chainID) => {
+            switch (chainID) {
+                case "dydx-mainnet-1":
+                    return DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC, {prefix: "dydx"});
+                case "noble-1":
+                    return DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC, {prefix: "noble"});
+                case "osmosis-1":
+                    return DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC, {prefix: "osmo"});
+            }
+            return DirectSecp256k1HdWallet.fromMnemonic(MNEMONIC)
+        },
+    });
+}
 
 export async function RpcClient(chainInfo) {
     let tendermintClient = {}
