@@ -1,4 +1,4 @@
-name: Schedule
+name: Testnet Rewards
 
 on:
   schedule:
@@ -8,7 +8,7 @@ env:
   MNEMONIC: ${{ secrets.MNEMONIC }}
 
 jobs:
-  swap-dydx-rewards-testnet:
+  swap-dydx-rewards:
     environment: test
     runs-on: ubuntu-latest
 
