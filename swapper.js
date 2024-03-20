@@ -156,29 +156,33 @@ async function Swap() {
 }
 
 async function SkipSwap() {
+    // query the USDC rewards amount that the swapper account holds.
     console.log("Querying USDC rewards balance on dYdX.\n")
-
     const usdcRewardsAmount =  await QueryAccountBalance(ChainInfos.Dydx, Addresses.Dydx, Denoms.Dydx.USDC)
         .then(balance => balance.balance.amount)
 
+    // if there is any reward to swap.
     if (usdcRewardsAmount != "0") {
+        console.log("Found " + usdcRewardsAmount + "uusdc on dYdX.\n")
+
         const client = SkipClient()
 
+        // create a route that sends the USDC to Osmosis and swaps it for DYDX.
+        // the swapped DYDX stays in Osmosis as it will be separately moved to the protocol rewards address.
+        // this is because Skip does not allow to pass more than one account for a given chain.
         const route = await client.route({
             amountIn: usdcRewardsAmount,
             sourceAssetDenom: Denoms.Dydx.USDC,
             sourceAssetChainID: ChainInfos.Dydx.chainID,
-            destAssetDenom: ChainInfos.Dydx.feeDenom,
-            destAssetChainID: ChainInfos.Dydx.chainID,
+            destAssetDenom: Denoms.Osmosis.DYDX,
+            destAssetChainID: ChainInfos.Osmosis.chainID,
             cumulativeAffiliateFeeBPS: "0",
         });
 
-        console.log("ROUTE\n")
-        console.log("-------------------------------------------------------------------------------------------------\n")
-        console.log(util.inspect(response, {showHidden: false, depth: null, colors: true}))
-        console.log("\n")
-        console.log("-------------------------------------------------------------------------------------------------\n")
+        console.log("Generated Route:\n")
+        console.log(util.inspect(route, {showHidden: false, depth: null, colors: true}) + "\n")
 
+        // execute the generated route.
         await client.executeRoute({
             route,
             userAddresses: {
@@ -186,12 +190,29 @@ async function SkipSwap() {
                 "noble-1": Addresses.Noble.address,
                 "osmosis-1": Addresses.Osmosis.address,
             },
+            // hook to handle the completed transaction result.
             onTransactionCompleted: async (chainID, hash, response) => {
-                console.log("Transaction Hash: " + hash + "\n");
-                console.log("-------------------------------------------------------------------------------------------------\n")
-                console.log(util.inspect(response, {showHidden: false, depth: null, colors: true}))
-                console.log("\n")
-                console.log("-------------------------------------------------------------------------------------------------\n")
+                console.log("Route Execution Response:\n")
+                console.log(util.inspect(response, {showHidden: false, depth: null, colors: true}) + "\n")
+
+                // after swapping the rewards, query the Osmosis account for all its DYDX.
+                const dydxSwappedBalance = await QueryAccountBalance(
+                    ChainInfos.Osmosis,
+                    Addresses.Osmosis,
+                    Denoms.Osmosis.DYDX,
+                ).then(balance => balance.balance)
+
+                console.log("Sending " + dydxSwappedBalance.amount + "adydx to the dYdX rewards address.\n")
+
+                // send an IBC transfer back to the dYdX ICA rewards account with all the swapped DYDX.
+                const txHash = await IBCSend(
+                    Addresses.Osmosis,
+                    Addresses.DydxRewardsAddress,
+                    IBCInfos.Osmosis.Dydx,
+                    dydxSwappedBalance,
+                )
+
+                console.log("IBC Transfer transaction hash: " + txHash + "\n")
             },
         })
     } else {

@@ -32,11 +32,16 @@ export const ChainInfos = {
         gasPrice: GasPrice.fromString("12500000000adydx"),
         tmVersion: COMET_BFT_VERSIONS.comet38,
     },
+    Osmosis: {
+        rpc: "https://rpc.osmosis.zone:443",
+        chainID: "osmosis-1",
+        prefix: "osmo",
+        feeDenom: "uosmo",
+        gasPrice: GasPrice.fromString("0.005uosmo"),
+        tmVersion: COMET_BFT_VERSIONS.comet37,
+    },
     Noble: {
         chainID: "noble-1",
-    },
-    Osmosis: {
-        chainID: "osmosis-1",
     },
 
     // TESTNETS
@@ -96,6 +101,14 @@ export const IBCInfos = {
             port: "transfer"
         }
     },
+    Osmosis: {
+        Dydx: {
+            channelId: "channel-6787",
+            connectionId: "connection-2500",
+            clientId: "07-tendermint-3009",
+            port: "transfer"
+        }
+    },
 
     // TESTNETS
     PersistenceTestnet: {
@@ -143,7 +156,11 @@ export const Denoms = {
         DYDX: "ibc/23DC3FF0E4CBB53A1915E4C62507CB7796956E84C68CA49707787CB8BDE90A1E"
     },
     Dydx: {
-        USDC: "ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5"
+        USDC: "ibc/8E27BA2D5493AF5636760E354E46004562C46AB7EC0CC4C1CA14E9E20E2545B5",
+        DYDX: "adydx"
+    },
+    Osmosis: {
+        DYDX: "ibc/831F0B1BBB1D08A2B75311892876D71565478C532967545476DF4C2D7492E48C"
     },
 
     //TESTNETS
@@ -175,12 +192,36 @@ export const Addresses = {
     DydxRewardsAddress: {
         address: "dydx1qqatzdqtm2fu722p3638tgacgev3r0qdywuw2ddp0mtdfr6kay7s7plrgu",
     },
+    Osmosis: {
+        address: "osmo17vhsaxt7cffl3crzyzmqz33ty67vzjwg0z0vms",
+        hdPath: stringToPath("m/44'/118'/0'/0/0"),
+        prefix: "osmo",
+        chainInfo: ChainInfos.Osmosis,
+        description: ""
+    },
     Noble: {
         address: "noble17vhsaxt7cffl3crzyzmqz33ty67vzjwg06f54v",
     },
-    Osmosis: {
-        address: "osmo17vhsaxt7cffl3crzyzmqz33ty67vzjwg0z0vms",
-    },
+    // Dydx: {
+    //     address: "dydx10kgyxy7y5pjy328vy3qwc0akkd7g8lykfuduln",
+    //     hdPath: stringToPath("m/44'/118'/0'/0/0"),
+    //     prefix: "dydx",
+    //     chainInfo: ChainInfos.Dydx,
+    //     description: ""
+    // },
+    // DydxRewardsAddress: {
+    //     address: "dydx1npvyyqymsq8cwufe0cx5aqwdm4sppac439jv0a",
+    // },
+    // Osmosis: {
+    //     address: "osmo10kgyxy7y5pjy328vy3qwc0akkd7g8lykg7sgfk",
+    //     hdPath: stringToPath("m/44'/118'/0'/0/0"),
+    //     prefix: "osmo",
+    //     chainInfo: ChainInfos.Osmosis,
+    //     description: ""
+    // },
+    // Noble: {
+    //     address: "noble10kgyxy7y5pjy328vy3qwc0akkd7g8lykgxks82",
+    // },
 
     //TESTNETS
     PersistenceTestnet: {
