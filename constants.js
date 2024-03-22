@@ -202,26 +202,6 @@ export const Addresses = {
     Noble: {
         address: "noble17vhsaxt7cffl3crzyzmqz33ty67vzjwg06f54v",
     },
-    // Dydx: {
-    //     address: "dydx10kgyxy7y5pjy328vy3qwc0akkd7g8lykfuduln",
-    //     hdPath: stringToPath("m/44'/118'/0'/0/0"),
-    //     prefix: "dydx",
-    //     chainInfo: ChainInfos.Dydx,
-    //     description: ""
-    // },
-    // DydxRewardsAddress: {
-    //     address: "dydx1npvyyqymsq8cwufe0cx5aqwdm4sppac439jv0a",
-    // },
-    // Osmosis: {
-    //     address: "osmo10kgyxy7y5pjy328vy3qwc0akkd7g8lykg7sgfk",
-    //     hdPath: stringToPath("m/44'/118'/0'/0/0"),
-    //     prefix: "osmo",
-    //     chainInfo: ChainInfos.Osmosis,
-    //     description: ""
-    // },
-    // Noble: {
-    //     address: "noble10kgyxy7y5pjy328vy3qwc0akkd7g8lykgxks82",
-    // },
 
     //TESTNETS
     PersistenceTestnet: {
