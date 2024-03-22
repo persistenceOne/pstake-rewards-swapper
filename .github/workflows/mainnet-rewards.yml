@@ -27,6 +27,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
       - name: Swap USDC Rewards
-        run: npm run skip-swap
+        run: npm run swap
         env:
           TARGET_ENV: "mainnet"
