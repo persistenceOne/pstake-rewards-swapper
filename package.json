@@ -4,7 +4,7 @@
   "description": "Repository that hosts non-auto-compoundable reward swapping for pSTAKE",
   "type": "module",
   "scripts": {
-    "swap": "NODE_OPTIONS='--experimental-specifier-resolution=node' node swapper.js"
+    "swap": "node swapper.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +23,7 @@
     "@cosmjs/stargate": "^0.31.1",
     "@cosmjs/tendermint-rpc": "^0.31.1",
     "@dydxprotocol/v4-client-js": "^1.0.12",
+    "@skip-router/core": "^1.5.1",
     "cosmjs-types": "^0.8.0",
     "dotenv": "^16.0.3",
     "persistenceonejs": "^2.4.0-rc0"

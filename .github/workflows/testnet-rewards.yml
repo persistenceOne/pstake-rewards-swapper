@@ -1,0 +1,33 @@
+name: Testnet Rewards
+
+on:
+  schedule:
+    - cron: '0 13 * * *'
+
+env:
+  MNEMONIC: ${{ secrets.MNEMONIC }}
+
+jobs:
+  swap-dydx-rewards:
+    environment: test
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        node-version: [ 16.x ]
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: 'npm'
+          cache-dependency-path: ./package-lock.json
+      - name: Install dependencies
+        run: npm ci
+      - name: Swap USDC Rewards
+        run: npm run swap
+        env:
+          HOST_CHAIN: "test-core-2"
+          TARGET_ENV: "testnet"
