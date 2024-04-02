@@ -59,5 +59,5 @@ async function SendTx(senderAddress, msgs, fee, memo) {
 
     assertIsDeliverTxSuccess(response)
 
-    return JSON.parse(JSON.stringify(response)).transactionHash
+    return response.transactionHash
 }
